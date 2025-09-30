@@ -17,6 +17,8 @@
 #include <arpa/inet.h>
 #include <font_awesome.h>
 
+#include "baidu_google_protocol.h"
+
 #define TAG "Application"
 
 
@@ -402,14 +404,16 @@ void Application::Start() {
     mcp_server.AddCommonTools();
     mcp_server.AddUserOnlyTools();
 
-    if (ota.HasMqttConfig()) {
-        protocol_ = std::make_unique<MqttProtocol>();
-    } else if (ota.HasWebsocketConfig()) {
-        protocol_ = std::make_unique<WebsocketProtocol>();
-    } else {
-        ESP_LOGW(TAG, "No protocol specified in the OTA config, using MQTT");
-        protocol_ = std::make_unique<MqttProtocol>();
-    }
+    // if (ota.HasMqttConfig()) {
+    //     protocol_ = std::make_unique<MqttProtocol>();
+    // } else if (ota.HasWebsocketConfig()) {
+    //     protocol_ = std::make_unique<WebsocketProtocol>();
+    // } else {
+    //     ESP_LOGW(TAG, "No protocol specified in the OTA config, using MQTT");
+    //     protocol_ = std::make_unique<MqttProtocol>();
+    // }
+
+    protocol_ = std::make_unique<BaiduGoogleProtocol>();
 
     protocol_->OnConnected([this]() {
         DismissAlert();
